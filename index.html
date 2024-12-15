@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JW Player with DASH and DRM</title>
+    <script src="https://cdn.jwplayer.com/libraries/your-jwplayer-library-key.js"></script>
+</head>
+<body>
+
+    <!-- Video Player Container -->
+    <div id="jw-player"></div>
+
+    <script type="text/javascript">
+        jwplayer("jw-player").setup({
+            file: "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd", // DASH stream URL
+            type: "application/dash+xml", // Specify the media type for DASH
+            drm: {
+                clearkey: {
+                    licenseUrl: "https://your-licence-server-url", // Replace with your DRM license URL
+                    key: "4e993aa8c1f295f8b94e8e9e6f6d0bfe:86a1ed6e96caab8eb1009fe530d2cf4f" // Your DRM key
+                }
+            },
+            width: "100%", // Player width
+            height: "auto", // Player height
+            controls: true, // Enable player controls
+            autoplay: true // Auto play when the page loads
+        });
+    </script>
+
+</body>
+</html>
