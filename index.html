@@ -16,7 +16,7 @@
       height: 100%;
     }
 
-    /* Make the video container cover full screen */
+    /* Video container covering full screen */
     .video-container {
       position: relative;
       width: 100vw;
@@ -26,11 +26,11 @@
       align-items: center;
     }
 
-    /* Video should cover full screen */
+    /* Video should cover full screen, with object-fit to preserve aspect ratio */
     #video {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* Ensures the video fits within the screen without cropping */
     }
 
     /* Logo styling */
@@ -38,9 +38,10 @@
       position: absolute;
       bottom: 10px;
       left: 10px;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 5px;
       z-index: 10;
+      /* Remove background color for transparent logo */
+      background-color: transparent; 
+      padding: 0;  /* Remove padding to avoid space around the logo */
     }
 
     .logo img {
@@ -65,7 +66,7 @@
     <!-- Logo (Image) -->
     <div class="logo">
       <!-- Replace with the URL of your uploaded nes.png image -->
-      <img src="https://raw.githubusercontent.com/AkashGillNiet/TNT3/refs/heads/main/nes.png" alt="Logo">
+      <img src="https://raw.githubusercontent.com/your-username/your-repository-name/main/images/nes.png" alt="Logo">
     </div>
   </div>
 
@@ -73,17 +74,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.0.3/shaka-player.compiled.js"></script>
 
   <script>
-    // Function to extract query parameters from URL (if needed)
-    function getQueryParams(url) {
-      const params = {};
-      const queryString = url.split('?')[1] || '';
-      const urlParams = new URLSearchParams(queryString);
-      urlParams.forEach((value, key) => {
-        params[key] = value;
-      });
-      return params;
-    }
-
     // The URL containing the media stream (without DRM key)
     const streamUrl = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd";  // No DRM key here
 
