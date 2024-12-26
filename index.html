@@ -49,11 +49,44 @@
       height: auto;
     }
 
-    /* Ensuring the logo stays at the top center even in landscape mode */
-    @media (orientation: landscape) {
-      .logo {
-        top: 15px;
-      }
+    /* Telegram Popup Styling */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #2c2c2c;
+      color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      display: none; /* Hidden by default */
+      z-index: 20;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .popup h2 {
+      margin-bottom: 20px;
+    }
+
+    .popup button {
+      background-color: #6a4e23;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .popup button:hover {
+      background-color: #8b6c3e;
+    }
+
+    /* Hide the popup when "Already Joined" is clicked */
+    .popup.closed {
+      display: none !important;
     }
   </style>
 </head>
@@ -64,9 +97,15 @@
 
     <!-- Logo (Image) -->
     <div class="logo">
-      <!-- Replace with the URL of your uploaded nes.png image -->
       <img src="https://raw.githubusercontent.com/AkashGillNiet/TNT3/refs/heads/main/nes.png" alt="Logo">
     </div>
+  </div>
+
+  <!-- Telegram Join Popup -->
+  <div class="popup" id="popup">
+    <h2>Join our Telegram Channel</h2>
+    <button id="join-now">Join Now</button>
+    <button id="already-joined">Already Joined</button>
   </div>
 
   <!-- Shaka Player JS -->
@@ -106,6 +145,21 @@
     }).catch((error) => {
       console.error('Error loading the video:', error);
     });
+
+    // Show the popup immediately when the page loads
+    window.onload = function() {
+      document.getElementById('popup').style.display = 'block';
+    };
+
+    // Button functionality
+    document.getElementById('join-now').onclick = function() {
+      window.open('https://t.me/your-telegram-channel-link', '_blank'); // Replace with your actual Telegram channel link
+      document.getElementById('popup').classList.add('closed'); // Close the popup
+    };
+
+    document.getElementById('already-joined').onclick = function() {
+      document.getElementById('popup').classList.add('closed'); // Close the popup
+    };
   </script>
 </body>
 </html>
