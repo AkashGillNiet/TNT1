@@ -24,6 +24,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;  /* To place the logo below the video */
     }
 
     /* Video should cover full screen, with object-fit to preserve aspect ratio */
@@ -33,29 +34,20 @@
       object-fit: contain; /* Ensures the video fits within the screen without cropping */
     }
 
-    /* Logo styling */
-    .logo {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      z-index: 10;
-      /* Remove background color for transparent logo */
-      background-color: transparent; 
-      padding: 0;  /* Remove padding to avoid space around the logo */
+    /* Logo container below the video player */
+    .logo-container {
+      margin-top: 20px; /* Space between video and logo */
+      display: flex;
+      justify-content: center; /* Center the logo horizontally */
+      width: 100%;
     }
 
+    /* Logo styling */
     .logo img {
       width: 100px;  /* Adjust the size of the logo */
       height: auto;
     }
 
-    /* Ensuring the logo stays on the left-bottom even in landscape mode */
-    @media (orientation: landscape) {
-      .logo {
-        bottom: 15px;
-        left: 15px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -63,10 +55,10 @@
     <!-- Video element for Shaka Player -->
     <video id="video" controls></video>
 
-    <!-- Logo (Image) -->
-    <div class="logo">
+    <!-- Logo container below the video -->
+    <div class="logo-container">
       <!-- Replace with the URL of your uploaded nes.png image -->
-      <img src="https://raw.githubusercontent.com/your-username/your-repository-name/main/images/nes.png" alt="Logo">
+      <img src="https://raw.githubusercontent.com/AkashGillNiet/TNT3/refs/heads/main/nes.png" alt="Logo">
     </div>
   </div>
 
