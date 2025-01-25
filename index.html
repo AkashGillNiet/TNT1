@@ -1,177 +1,121 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Niet EnterSports</title>
 
-  <!-- Shaka Player CSS (Optional) -->
-  <link href="https://cdn.jsdelivr.net/npm/shaka-player@3.0.3/dist/controls.css" rel="stylesheet">
+    <meta charset="UTF-8">
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      height: 100%;
-    }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    /* Video container covering full screen */
-    .video-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    <title>Niet EnterSports</title>
 
-    /* Video should cover full screen, with object-fit to preserve aspect ratio */
-    #video {
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* Ensures the video fits within the screen without cropping */
-    }
+    <!-- Shaka Player CSS and JS -->
 
-    /* Logo styling - Top Center */
-    .logo {
-      position: absolute;
-      top: 10px; /* Space from the top */
-      left: 50%;
-      transform: translateX(-50%); /* Center the logo horizontally */
-      z-index: 10;
-      background-color: transparent; 
-      padding: 0;  /* Remove padding to avoid space around the logo */
-    }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.12/controls.min.css" crossorigin="anonymous">
 
-    .logo img {
-      width: 100px;  /* Adjust the size of the logo */
-      height: auto;
-    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.12/shaka-player.ui.min.js" crossorigin="anonymous"></script>
 
-    /* Telegram Popup Styling - Fullscreen with blur effect */
-    .popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-      backdrop-filter: blur(5px); /* Apply blur effect */
-      display: none; /* Hidden by default */
-      z-index: 20;
-      justify-content: center;
-      align-items: center;
-      display: flex; /* Flexbox to center content */
-      text-align: center;
-    }
+    <style>
 
-    .popup-content {
-      background-color: #2c2c2c;
-      color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 500px;
-    }
+        body {
 
-    .popup h2 {
-      margin-bottom: 20px;
-    }
+            margin: 0;
 
-    .popup button {
-      background-color: #6a4e23;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      margin: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+            background-color: black;
 
-    .popup button:hover {
-      background-color: #8b6c3e;
-    }
+            color: white;
 
-    /* Hide the popup when "Already Joined" is clicked */
-    .popup.closed {
-      display: none !important;
-    }
-  </style>
+            font-family: Arial, sans-serif;
+
+        }
+
+        .player-container {
+
+            width: 100%;
+
+            height: 100vh;
+
+        }
+
+        video {
+
+            width: 100%;
+
+            height: 100%;
+
+        }
+
+    </style>
+
 </head>
+
 <body>
-  <div class="video-container">
-    <!-- Video element for Shaka Player -->
-    <video id="video" controls></video>
 
-    <!-- Logo (Image) -->
-    <div class="logo">
-      <img src="https://raw.githubusercontent.com/AkashGillNiet/TNT3/refs/heads/main/nes.png" alt="Logo">
+    <div class="player-container">
+
+        <video id="video" autoplay muted controls></video>
+
     </div>
-  </div>
 
-  <!-- Telegram Join Popup -->
-  <div class="popup" id="popup">
-    <div class="popup-content">
-      <h2>Join our Telegram Channel</h2>
-      <button id="join-now">Join Now</button>
-      <button id="already-joined">Already Joined</button>
-    </div>
-  </div>
+    <script>
 
-  <!-- Shaka Player JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.0.3/shaka-player.compiled.js"></script>
+        async function initPlayer() {
 
-  <script>
-    // The URL containing the media stream (without DRM key)
-    const streamUrl = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd";  // No DRM key here
+            const video = document.getElementById('video');
 
-    // Manually specify DRM scheme and License key (do not pass through URL)
-    const drmScheme = 'clearkey';  // Example DRM scheme
-    const drmLicenseUrl = 'https://your-license-server.com/clearKey';  // Replace with your actual license server URL
-    const drmLicenseKey = '4e993aa8c1f295f8b94e8e9e6f6d0bfe:86a1ed6e96caab8eb1009fe530d2cf4f';  // License key
+            const player = new shaka.Player(video);
 
-    // Initialize Shaka Player
-    const player = new shaka.Player(document.getElementById('video'));
+            // Handle errors
 
-    // Shaka Player error handler
-    player.addEventListener('error', (event) => {
-      console.error('Error code', event.detail.code, 'object', event.detail);
-    });
+            player.addEventListener('error', (event) => {
 
-    // Configure DRM (Clearkey in this case)
-    const config = {
-      drm: {
-        clearKeys: {
-          [drmLicenseKey.split(':')[0]]: drmLicenseKey.split(':')[1],  // Splitting key and value
-        },
-      },
-    };
-    player.configure(config);
+                console.error('Error loading the stream:', event.detail);
 
-    // Load the stream
-    player.load(streamUrl).then(() => {
-      console.log('The video has been loaded!');
-      document.getElementById('video').play();  // Play the video once loaded
-    }).catch((error) => {
-      console.error('Error loading the video:', error);
-    });
+                alert('Error loading the stream. Please try again later.');
 
-    // Show the popup immediately when the page loads
-    window.onload = function() {
-      document.getElementById('popup').style.display = 'flex';
-    };
+            });
 
-    // Button functionality
-    document.getElementById('join-now').onclick = function() {
-      window.open('https://t.me/SportsLiveLink18', '_blank'); // Replace with your actual Telegram channel link
-      document.getElementById('popup').classList.add('closed'); // Close the popup
-    };
+            // DRM configuration for ClearKey
 
-    document.getElementById('already-joined').onclick = function() {
-      document.getElementById('popup').classList.add('closed'); // Close the popup
-    };
-  </script>
+            player.configure({
+
+                drm: {
+
+                    clearKeys: {
+
+                        '4e993aa8c1f295f8b94e8e9e6f6d0bfe': '86a1ed6e96caab8eb1009fe530d2cf4f' // Replace with the actual ClearKey pair
+
+                    }
+
+                }
+
+            });
+
+            const streamUrl = 'https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd?|drmScheme=clearkey&drmLicense=4e993aa8c1f295f8b94e8e9e6f6d0bfe:86a1ed6e96caab8eb1009fe530d2cf4f';
+
+            try {
+
+                // Load the DRM-protected stream
+
+                await player.load(streamUrl);
+
+                console.log('The video has been successfully loaded!');
+
+            } catch (error) {
+
+                console.error('Error loading the video:', error);
+
+            }
+
+        }
+
+        // Initialize the player after the page has loaded
+
+        document.addEventListener('DOMContentLoaded', initPlayer);
+
+    </script>
+
 </body>
+
 </html>
