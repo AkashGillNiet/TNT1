@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Niet EnterSports</title>
+    <title>DRM Protected Stream</title>
 
     <!-- Shaka Player CSS and JS -->
 
@@ -66,15 +66,7 @@
 
             const player = new shaka.Player(video);
 
-            // Handle errors
-
-            player.addEventListener('error', (event) => {
-
-                console.error('Error loading the stream:', event.detail);
-
-                alert('Error loading the stream. Please try again later.');
-
-            });
+            
 
             // DRM configuration for ClearKey
 
